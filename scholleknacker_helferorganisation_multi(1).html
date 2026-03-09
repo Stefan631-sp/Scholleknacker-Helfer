@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scholleknacker Helferorganisation</title>
+<style>
+:root{
+  --card:#ffffff;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --accent:#f97316;
+  --accent2:#16a34a;
+  --success:#059669;
+  --danger:#dc2626;
+  --warning:#d97706;
+  --shadow:0 12px 30px rgba(0,0,0,.18);
+  --radius:22px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#111827;background:radial-gradient(circle at top left, rgba(249,115,22,.22), transparent 28%),radial-gradient(circle at top right, rgba(22,163,74,.18), transparent 25%),linear-gradient(180deg, #0f172a 0%, #111827 34%, #1f2937 100%);min-height:100vh}
+.container{max-width:1240px;margin:auto;padding:18px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg, rgba(17,24,39,.96), rgba(31,41,55,.92));color:#fff;border-radius:30px;box-shadow:var(--shadow);padding:26px;margin-bottom:16px;border:1px solid rgba(255,255,255,.08)}
+.hero::before{content:"";position:absolute;inset:-30% auto auto -10%;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle, rgba(249,115,22,.28), transparent 70%)}
+.hero::after{content:"";position:absolute;inset:auto -10% -20% auto;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle, rgba(22,163,74,.22), transparent 72%)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:18px;position:relative;z-index:1}
+.brand{display:flex;gap:18px;align-items:center}
+.logo-badge{width:96px;height:96px;flex:0 0 96px;border-radius:26px;background:linear-gradient(135deg,#f59e0b,#f97316 60%,#b45309);display:grid;place-items:center;color:#fff;font-weight:900;font-size:34px;letter-spacing:1px;box-shadow:0 10px 24px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.22)}
+.logo-image-wrap{background:#fff;padding:6px;overflow:hidden}
+.logo-image{width:100%;height:100%;object-fit:cover;border-radius:20px;display:block}
+.hero h1{margin:0;font-size:clamp(28px,4vw,44px);line-height:1.05}
+.hero p{margin:8px 0 0;color:rgba(255,255,255,.84);font-size:16px}
+.hero-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.hero-tag{padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-self:end}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:16px}
+.stat-label{font-size:12px;color:rgba(255,255,255,.72);text-transform:uppercase;letter-spacing:.08em}
+.stat-value{margin-top:6px;font-size:30px;font-weight:900}
+.card{background:var(--card);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.section-title{margin:0 0 12px;font-size:21px}
+.section-sub{color:var(--muted);margin:2px 0 0;font-size:14px}
+.toolbar,.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;gap:12px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.grid-main{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+.grid-side{display:grid;grid-template-columns:.95fr 1.05fr;gap:14px}
+input,select,button,textarea{width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--line);font-size:15px;font-family:inherit;outline:none;transition:.18s ease;background:#fff}
+input:focus,select:focus,textarea:focus{border-color:#86efac;box-shadow:0 0 0 4px rgba(22,163,74,.12)}
+textarea{min-height:92px;resize:vertical}
+button{cursor:pointer;border:none;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;font-weight:700;letter-spacing:.01em;box-shadow:0 8px 18px rgba(22,163,74,.22)}
+button:hover{transform:translateY(-1px)}
+button.secondary{background:#eef2ff;color:#1e3a8a;box-shadow:none}
+button.delete{background:linear-gradient(135deg,var(--danger),#b91c1c)}
+button.edit{background:linear-gradient(135deg,var(--success),#047857)}
+button.warn{background:linear-gradient(135deg,var(--warning),#b45309)}
+button.ghost{background:#f3f4f6;color:#111827;box-shadow:none}
+button.orange{background:linear-gradient(135deg,#f97316,#ea580c);box-shadow:0 8px 18px rgba(249,115,22,.22)}
+.label{display:block;font-size:13px;font-weight:700;color:#374151;margin:0 0 6px}
+.progress-wrap{background:#e5e7eb;border-radius:999px;height:18px;overflow:hidden}
+.progress-bar{background:linear-gradient(90deg,#f97316 0%,#fb923c 35%,#16a34a 100%);height:100%;transition:width .25s ease}
+.small{font-size:12px;color:var(--muted)}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:6px;background:#f3f4f6;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;color:#374151}
+.helper-box{display:flex;gap:10px;flex-wrap:wrap}
+.helper-chip{background:#eff6ff;color:#1d4ed8;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700}
+.team-chip{background:#ecfdf5;color:#166534;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700}
+.qr-wrap{display:grid;grid-template-columns:1fr 220px;gap:14px;align-items:center}
+.qr-box{display:flex;justify-content:center}.qr-frame{background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px;box-shadow:0 8px 18px rgba(0,0,0,.06)}
+.tasks-head{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-bottom:10px}
+.task-card{background:linear-gradient(180deg,#fff,#fcfcfd);border:1px solid #eef2f7;border-radius:24px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.06)}
+.task-title{font-size:20px;font-weight:900;line-height:1.1;margin:0}.task-note{color:#374151;margin:12px 0 0;white-space:pre-wrap}
+.done-box{margin-top:12px;padding:12px 14px;border-radius:16px;background:#ecfdf5;color:#065f46;font-size:14px;border:1px solid #a7f3d0}
+.open-box{margin-top:12px;padding:12px 14px;border-radius:16px;background:#f9fafb;color:#4b5563;font-size:14px;border:1px solid #eceff3}
+.task-actions{margin-top:14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.list-card{border:1px solid #eef2f7;border-radius:18px;padding:14px;background:linear-gradient(180deg,#fff,#fafafa)}
+.list-card.active{border-color:#fdba74;box-shadow:0 0 0 3px rgba(249,115,22,.14)}
+.list-title{font-weight:900;font-size:17px;margin:0}.list-meta{margin-top:8px;color:#6b7280;font-size:13px}
+.list-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.footer-note{color:#d1d5db;text-align:center;font-size:13px;padding:10px 0 20px}
+@media (max-width:1080px){.hero-grid,.grid-main,.grid-side,.qr-wrap{grid-template-columns:1fr}.summary{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:720px){.container{padding:10px}.hero,.card,.task-card,.list-card{padding:14px}.brand{align-items:flex-start}.logo-badge{width:78px;height:78px;flex-basis:78px}.summary{grid-template-columns:1fr}.task-actions{grid-template-columns:1fr}.toolbar > *,.row > *,.list-actions > *{width:100%}}
+</style>
+</head>
+<body>
+<div class="container">
+<section class="hero">
+<div class="hero-grid">
+<div>
+<div class="brand">
+<div class="logo-badge logo-image-wrap"><img src="Relli Karrikatur.png" alt="Scholleknacker Logo" class="logo-image"></div>
+<div>
+<div style="display:inline-block;background:linear-gradient(90deg,#f97316,#16a34a);padding:6px 14px;border-radius:999px;font-weight:800;font-size:12px;letter-spacing:.08em;margin-bottom:10px">SCHOLLEKNACKER CUP</div>
+<h1>Helferorganisation & Teamlisten</h1>
+<p>Mehrere Listen, Teams, Aufgaben und Jahresplanung in einer mobilen Vereinsoberfläche.</p>
+<div class="hero-tags"><span class="hero-tag">Mehrere Listen</span><span class="hero-tag">Teams</span><span class="hero-tag">Bearbeitbar</span><span class="hero-tag">WhatsApp-tauglich</span></div>
+</div>
+</div>
+</div>
+<div class="summary">
+<div class="stat"><div class="stat-label">Listen</div><div class="stat-value" id="statLists">0</div></div>
+<div class="stat"><div class="stat-label">Aufgaben</div><div class="stat-value" id="statTotal">0</div></div>
+<div class="stat"><div class="stat-label">Erledigt</div><div class="stat-value" id="statDone">0</div></div>
+</div>
+</div>
+</section>
+
+<div class="grid-main">
+<section class="card">
+<h2 class="section-title">Aktive Liste</h2>
+<p class="section-sub">Zwischen Helferlisten wechseln, neue Listen anlegen und Teams strukturieren.</p>
+<div class="grid grid-2" style="margin-top:12px">
+<div><label class="label" for="currentListSelect">Liste auswählen</label><select id="currentListSelect"></select></div>
+<div><label class="label" for="filter">Aufgabenfilter</label><select id="filter"><option value="all">Alle Aufgaben</option><option value="open">Nur offene</option><option value="done">Nur erledigte</option></select></div>
+<div><label class="label" for="name">Dein Name</label><input id="name" placeholder="z. B. Stefan, Marco, Lisa"></div>
+<div><label class="label" for="shareUrl">Freigabe-Link</label><input id="shareUrl" placeholder="https://www.scholleknacker.de/helferliste.html"></div>
+</div>
+<div style="margin-top:16px"><div class="row" style="justify-content:space-between;margin-bottom:6px"><strong>Fortschritt der aktiven Liste</strong><span id="progressText" class="small"></span></div><div class="progress-wrap"><div id="progressBar" class="progress-bar" style="width:0%"></div></div></div>
+<div class="toolbar" style="margin-top:16px"><button id="btnExport">Aktive Liste exportieren</button><button id="btnExportAll" class="orange">Alle Listen exportieren</button><button id="btnImport" class="secondary">Listen importieren</button><button id="btnSort" class="warn">Nach Datum sortieren</button><button id="btnReset" class="ghost">Aktive Liste zurücksetzen</button><button id="btnRepair" class="secondary">Lokale Daten reparieren</button></div>
+</section>
+
+<section class="card">
+<h2 class="section-title">Helfer- und Teamübersicht</h2>
+<p class="section-sub">Wer in der aktiven Liste bereits etwas erledigt hat.</p>
+<div id="helperSummary" class="helper-box" style="margin-top:12px"></div>
+<div style="margin-top:16px"><h3 style="margin:0 0 10px;font-size:16px">Teamstatus über alle Listen</h3><div id="teamSummary" class="helper-box"></div></div>
+</section>
+</div>
+
+<div class="grid-side">
+<section class="card">
+<h2 class="section-title">Listenverwaltung</h2>
+<p class="section-sub">Mehrere To-do-Listen benennen, bearbeiten und für Teams trennen.</p>
+<div class="grid grid-2" style="margin-top:12px">
+<div><label class="label" for="newListName">Neue Liste</label><input id="newListName" placeholder="z. B. Streckenposten Samstag"></div>
+<div><label class="label" for="newListTeam">Team / Bereich</label><select id="newListTeam"><option value="Hauptorganisation">Hauptorganisation</option><option value="Strecke">Strecke</option><option value="Festzelt">Festzelt</option><option value="Technik">Technik</option><option value="Küche">Küche</option><option value="Abbau">Abbau</option><option value="Sonstiges">Sonstiges</option></select></div>
+</div>
+<div class="toolbar" style="margin-top:12px"><button id="btnCreateList">Liste anlegen</button><button id="btnRenameList" class="secondary">Aktive Liste umbenennen</button><button id="btnDeleteList" class="delete">Aktive Liste löschen</button></div>
+<div id="listCards" class="grid" style="margin-top:14px"></div>
+</section>
+
+<section class="card">
+<h2 class="section-title">Neue Aufgabe</h2>
+<p class="section-sub">Aufgaben sauber erfassen und der aktiven Liste zuordnen.</p>
+<div class="grid grid-2" style="margin-top:12px">
+<div><label class="label" for="newTitle">Aufgabe</label><input id="newTitle" placeholder="z. B. Strom für Festzelt prüfen"></div>
+<div><label class="label" for="newDate">Datum</label><input id="newDate" placeholder="27.05.2026"></div>
+<div><label class="label" for="newTime">Uhrzeit</label><input id="newTime" placeholder="z. B. 14:00 Uhr"></div>
+<div><label class="label" for="newCategory">Bereich</label><select id="newCategory"><option value="Allgemein">Allgemein</option><option value="Strecke">Strecke</option><option value="Festzelt">Festzelt</option><option value="Technik">Technik</option><option value="Küche">Küche</option><option value="Abbau">Abbau</option></select></div>
+</div>
+<div style="margin-top:12px"><label class="label" for="newNote">Notiz</label><textarea id="newNote" placeholder="Material, Helferhinweis, To-do-Details"></textarea></div>
+<div class="toolbar" style="margin-top:14px"><button id="btnAdd">Aufgabe hinzufügen</button></div>
+</section>
+</div>
+
+<section class="card">
+<h2 class="section-title">QR-Code & Freigabe</h2>
+<p class="section-sub">Link eintragen und direkt im Helferzelt oder in WhatsApp teilen.</p>
+<div class="qr-wrap" style="margin-top:12px"><div><p class="small">Hinweis: Diese Version speichert lokal im jeweiligen Browser. Ohne Datenbank sieht jeder nur seinen eigenen Stand.</p></div><div class="qr-box"><div class="qr-frame"><img id="qrImage" alt="QR-Code" style="display:none;max-width:190px;width:100%;height:auto"></div></div></div>
+</section>
+
+<section class="card">
+<div class="tasks-head"><div><h2 class="section-title">Aufgabenliste</h2><p class="section-sub" id="activeListSubtitle">Alle Aufgaben der aktiven Liste.</p></div><div class="badges"><span class="badge" id="badgeCount">0 Punkte</span><span class="badge" id="badgeCurrentTeam">Team</span></div></div>
+<div id="taskList" class="grid"></div>
+</section>
+
+<div class="footer-note">Scholleknacker Rennen · Helferorganisation · Mehrere Listen in einer HTML-Datei</div>
+</div>
+
+<script>
+const initialTasks=[
+{id:1,date:"26.04.2026",title:"Banner stellen",time:"10:00 Uhr",category:"Allgemein",note:"Banner und Befestigungsmaterial bereitlegen.",done:false,doneBy:"",doneAt:""},
+{id:2,date:"23.05.2026",title:"Grünschnittarbeiten",time:"ab 09:00 Uhr",category:"Strecke",note:"Freischneider, Hänger und Handschuhe einplanen.",done:false,doneBy:"",doneAt:""},
+{id:3,date:"27.05.2026",title:"Zeltaufbau",time:"14:00 Uhr",category:"Festzelt",note:"Helfer für Aufbau und Ausrichtung einteilen.",done:false,doneBy:"",doneAt:""},
+{id:4,date:"28.05.2026",title:"Vorbereitung",time:"ab 15:00 Uhr",category:"Allgemein",note:"Platzkontrolle und Materialsichtung.",done:false,doneBy:"",doneAt:""},
+{id:5,date:"29.05.2026",title:"Vorbereitung",time:"ab 15:00 Uhr",category:"Allgemein",note:"Offene Restarbeiten bündeln.",done:false,doneBy:"",doneAt:""},
+{id:6,date:"30.05.2026",title:"Vorbereitung",time:"ab 09:00 Uhr",category:"Allgemein",note:"Feinschliff für Veranstaltungstag.",done:false,doneBy:"",doneAt:""},
+{id:7,date:"31.05.2026",title:"Rennen",time:"ganztägig",category:"Strecke",note:"Streckenposten, Orga und Technik im Blick behalten.",done:false,doneBy:"",doneAt:""},
+{id:8,date:"01.06.2026",title:"Abbau",time:"ab 09:00 Uhr",category:"Abbau",note:"Material sortieren und Rücktransport abstimmen.",done:false,doneBy:"",doneAt:""},
+{id:9,date:"01.06.2026",title:"Zeltabbau",time:"14:00 Uhr",category:"Abbau",note:"Plane trocken einpacken und Zubehör prüfen.",done:false,doneBy:"",doneAt:""},
+{id:10,date:"07.06.2026",title:"Banner holen",time:"ab 10:00 Uhr",category:"Allgemein",note:"Alle Banner kontrollieren und einlagern.",done:false,doneBy:"",doneAt:""}
+];
+
+const defaultLists=()=>({
+"Hauptorganisation":{team:"Hauptorganisation",tasks:cloneInitialTasks()},
+"Strecke":{team:"Strecke",tasks:[]},
+"Festzelt":{team:"Festzelt",tasks:[]},
+"Technik":{team:"Technik",tasks:[]},
+"Abbau":{team:"Abbau",tasks:[]}
+});
+
+const els={};
+function cloneInitialTasks(){return typeof structuredClone==="function" ? structuredClone(initialTasks) : JSON.parse(JSON.stringify(initialTasks));}
+function cloneDefaults(){return typeof structuredClone==="function" ? structuredClone(defaultLists()) : JSON.parse(JSON.stringify(defaultLists()));}
+function cacheElements(){["name","filter","progressText","progressBar","helperSummary","teamSummary","shareUrl","qrImage","taskList","badgeCount","badgeCurrentTeam","statLists","statTotal","statDone","newTitle","newDate","newTime","newCategory","newNote","btnExport","btnExportAll","btnImport","btnSort","btnReset","btnRepair","btnAdd","currentListSelect","newListName","newListTeam","btnCreateList","btnRenameList","btnDeleteList","listCards","activeListSubtitle"].forEach(id=>els[id]=document.getElementById(id));}
+function sanitizeTaskArray(input){return input.filter(item=>item && typeof item==="object").map((item,index)=>({id:Number.isFinite(Number(item.id)) ? Number(item.id) : index+1,date:String(item.date||""),title:String(item.title||"Ohne Titel"),time:String(item.time||""),category:String(item.category||"Allgemein"),note:String(item.note||""),done:Boolean(item.done),doneBy:String(item.doneBy||""),doneAt:String(item.doneAt||"")}));}
+function sanitizeListsObject(input){if(!input || typeof input!=="object" || Array.isArray(input)) return cloneDefaults(); const result={}; Object.entries(input).forEach(([name,value])=>{if(!value || typeof value!=="object") return; const team=String(value.team || name || "Sonstiges"); const tasks=Array.isArray(value.tasks) ? sanitizeTaskArray(value.tasks) : []; result[String(name)]={team,tasks};}); return Object.keys(result).length ? result : cloneDefaults();}
+function loadState(){try{const raw=localStorage.getItem("scholleknacker_multi_lists"); if(!raw) return cloneDefaults(); return sanitizeListsObject(JSON.parse(raw));}catch(err){localStorage.removeItem("scholleknacker_multi_lists"); return cloneDefaults();}}
+let lists=loadState();
+let currentList=Object.keys(lists)[0];
+let tasks=lists[currentList].tasks;
+const lastShare=localStorage.getItem("scholleknacker_share_url")||"";
+function saveState(){lists[currentList].tasks=tasks; localStorage.setItem("scholleknacker_multi_lists",JSON.stringify(lists)); localStorage.setItem("scholleknacker_share_url",els.shareUrl.value||"");}
+function now(){return new Date().toLocaleString("de-DE")}
+function parseDate(d){const m=String(d||"").match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);return m?new Date(Number(m[3]),Number(m[2])-1,Number(m[1])).getTime():new Date(9999,11,31).getTime();}
+function escapeHtml(value){return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#39;");}
+function setCurrentList(name){if(!lists[name]) return; currentList=name; tasks=lists[currentList].tasks; render();}
+function createList(){const name=els.newListName.value.trim(); const team=els.newListTeam.value; if(!name) return; if(lists[name]){alert("Liste existiert bereits.");return;} lists[name]={team,tasks:[]}; els.newListName.value=""; currentList=name; tasks=lists[currentList].tasks; saveState(); render();}
+function renameCurrentList(){const newName=prompt("Liste umbenennen",currentList); if(newName===null) return; const clean=newName.trim(); if(!clean || clean===currentList) return; if(lists[clean]){alert("Diesen Namen gibt es bereits.");return;} lists[clean]=lists[currentList]; delete lists[currentList]; currentList=clean; tasks=lists[currentList].tasks; saveState(); render();}
+function deleteCurrentList(){const names=Object.keys(lists); if(names.length<=1){alert("Mindestens eine Liste muss bestehen bleiben.");return;} if(!confirm(`Liste "${currentList}" wirklich löschen?`)) return; delete lists[currentList]; currentList=Object.keys(lists)[0]; tasks=lists[currentList].tasks; saveState(); render();}
+function changeTeamForList(name){const team=prompt("Team / Bereich ändern",lists[name].team||""); if(team===null) return; lists[name].team=team.trim()||"Sonstiges"; saveState(); render();}
+function toggle(id){const name=els.name.value.trim(); if(!name){alert("Bitte zuerst Namen eingeben");return;} const task=tasks.find(x=>x.id===id); if(!task) return; if(task.done){task.done=false;task.doneBy="";task.doneAt="";} else {task.done=true;task.doneBy=name;task.doneAt=now();} saveState(); render();}
+function deleteTask(id){tasks=tasks.filter(t=>t.id!==id); saveState(); render();}
+function editTask(id){const task=tasks.find(x=>x.id===id); if(!task) return; const title=prompt("Aufgabe ändern",task.title); if(title===null) return; const date=prompt("Datum ändern",task.date||""); if(date===null) return; const time=prompt("Uhrzeit ändern",task.time||""); if(time===null) return; const category=prompt("Kategorie ändern",task.category||"Allgemein"); if(category===null) return; const note=prompt("Notiz ändern",task.note||""); if(note===null) return; task.title=title.trim()||"Ohne Titel"; task.date=date.trim(); task.time=time.trim(); task.category=category.trim()||"Allgemein"; task.note=note.trim(); saveState(); render();}
+function addTask(){const title=els.newTitle.value.trim(); if(!title) return; const maxId=tasks.length ? Math.max(...tasks.map(t=>t.id)) : 0; tasks.push({id:maxId+1,date:els.newDate.value.trim(),title:title,time:els.newTime.value.trim(),category:els.newCategory.value,note:els.newNote.value.trim(),done:false,doneBy:"",doneAt:""}); els.newTitle.value=""; els.newDate.value=""; els.newTime.value=""; els.newCategory.value="Allgemein"; els.newNote.value=""; saveState(); render();}
+function resetActiveList(){if(!confirm("Aktive Liste zurücksetzen?")) return; lists[currentList].tasks=[]; tasks=lists[currentList].tasks; saveState(); render();}
+function repairLocalData(){localStorage.removeItem("scholleknacker_multi_lists"); lists=cloneDefaults(); currentList=Object.keys(lists)[0]; tasks=lists[currentList].tasks; saveState(); render();}
+function exportActiveList(){const payload={name:currentList,team:lists[currentList].team,tasks}; const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`${currentList.replace(/[^a-z0-9-_]+/gi,"_")}.json`; a.click(); URL.revokeObjectURL(a.href);}
+function exportAllLists(){const blob=new Blob([JSON.stringify(lists,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="scholleknacker_alle_listen.json"; a.click(); URL.revokeObjectURL(a.href);}
+function importLists(){const input=document.createElement("input"); input.type="file"; input.accept="application/json"; input.onchange=(e)=>{const file=e.target.files && e.target.files[0]; if(!file) return; const reader=new FileReader(); reader.onload=()=>{try{const data=JSON.parse(String(reader.result||"{}")); if(Array.isArray(data)){throw new Error("Kein Listenobjekt");} lists=sanitizeListsObject(data); currentList=Object.keys(lists)[0]; tasks=lists[currentList].tasks; saveState(); render();}catch(err){alert("Import fehlgeschlagen oder Datei ungültig.");}}; reader.readAsText(file);}; input.click();}
+function sortByDate(){tasks.sort((a,b)=>parseDate(a.date)-parseDate(b.date)); saveState(); render();}
+function getFilteredTasks(){const filter=els.filter.value; if(filter==="open") return tasks.filter(t=>!t.done); if(filter==="done") return tasks.filter(t=>t.done); return [...tasks];}
+function renderListSelect(){els.currentListSelect.innerHTML=""; Object.keys(lists).forEach(name=>{const o=document.createElement("option"); o.value=name; o.textContent=name; if(name===currentList) o.selected=true; els.currentListSelect.appendChild(o);});}
+function renderListCards(){els.listCards.innerHTML=""; Object.entries(lists).forEach(([name,data])=>{const done=data.tasks.filter(t=>t.done).length; const card=document.createElement("div"); card.className=`list-card${name===currentList?" active":""}`; card.innerHTML=`<p class="list-title">${escapeHtml(name)}</p><div class="list-meta">Team: ${escapeHtml(data.team||"Sonstiges")} · ${data.tasks.length} Aufgaben · ${done} erledigt</div><div class="list-actions"><button data-list-action="open" data-list-name="${escapeHtml(name)}">Öffnen</button><button class="secondary" data-list-action="team" data-list-name="${escapeHtml(name)}">Team ändern</button></div>`; els.listCards.appendChild(card);});}
+function renderProgress(){const done=tasks.filter(t=>t.done).length, total=tasks.length||1, percent=Math.round(done/total*100); els.progressBar.style.width=percent+"%"; els.progressText.textContent=`${done} von ${tasks.length} erledigt · ${percent}%`; els.statLists.textContent=String(Object.keys(lists).length); els.statTotal.textContent=String(tasks.length); els.statDone.textContent=String(done); els.badgeCount.textContent=`${tasks.length} Punkte`; els.badgeCurrentTeam.textContent=lists[currentList].team || "Team"; els.activeListSubtitle.textContent=`Aktive Liste: ${currentList}`;}
+function renderHelperSummary(){els.helperSummary.innerHTML=""; const doneTasks=tasks.filter(t=>t.done && t.doneBy); if(!doneTasks.length){const span=document.createElement("div"); span.className="small"; span.textContent="Noch keine erledigten Aufgaben."; els.helperSummary.appendChild(span); return;} const map={}; doneTasks.forEach(t=>{map[t.doneBy]=(map[t.doneBy]||0)+1}); Object.entries(map).sort((a,b)=>b[1]-a[1]).forEach(([name,count])=>{const chip=document.createElement("span"); chip.className="helper-chip"; chip.textContent=`${name}: ${count}`; els.helperSummary.appendChild(chip);});}
+function renderTeamSummary(){els.teamSummary.innerHTML=""; Object.entries(lists).forEach(([name,data])=>{const done=data.tasks.filter(t=>t.done).length; const chip=document.createElement("span"); chip.className="team-chip"; chip.textContent=`${name} · ${data.team} · ${done}/${data.tasks.length}`; els.teamSummary.appendChild(chip);});}
+function renderQr(){const url=els.shareUrl.value.trim(); localStorage.setItem("scholleknacker_share_url",url); if(!url){els.qrImage.style.display="none"; els.qrImage.src=""; return;} els.qrImage.src=`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`; els.qrImage.style.display="block";}
+function createTaskCard(task){const card=document.createElement("article"); card.className="task-card"; const noteHtml=task.note ? `<p class="task-note">${escapeHtml(task.note)}</p>` : ""; const statusHtml=task.done ? `<div class="done-box"><strong>Erledigt von ${escapeHtml(task.doneBy||"Unbekannt")}</strong><br>${escapeHtml(task.doneAt||"")}</div>` : `<div class="open-box">Noch offen</div>`; card.innerHTML=`<h3 class="task-title">${escapeHtml(task.title)}</h3><div class="badges" style="margin-top:10px"><span class="badge">${escapeHtml(task.date||"kein Datum")}</span><span class="badge">${escapeHtml(task.time||"keine Uhrzeit")}</span><span class="badge">${escapeHtml(task.category||"Allgemein")}</span></div>${noteHtml}${statusHtml}<div class="task-actions"><button data-action="toggle" data-id="${task.id}">${task.done?"Rückgängig":"Abhaken"}</button><button class="edit" data-action="edit" data-id="${task.id}">Bearbeiten</button><button class="delete" data-action="delete" data-id="${task.id}">Löschen</button></div>`; return card;}
+function renderTasks(){const fragment=document.createDocumentFragment(); getFilteredTasks().forEach(task=>fragment.appendChild(createTaskCard(task))); els.taskList.innerHTML=""; els.taskList.appendChild(fragment);}
+function render(){tasks=lists[currentList].tasks; renderListSelect(); renderListCards(); renderProgress(); renderHelperSummary(); renderTeamSummary(); renderQr(); renderTasks();}
+function attachEvents(){els.filter.addEventListener("change",render); els.shareUrl.addEventListener("input",renderQr); els.currentListSelect.addEventListener("change",e=>setCurrentList(e.target.value)); els.btnExport.addEventListener("click",exportActiveList); els.btnExportAll.addEventListener("click",exportAllLists); els.btnImport.addEventListener("click",importLists); els.btnSort.addEventListener("click",sortByDate); els.btnReset.addEventListener("click",resetActiveList); els.btnRepair.addEventListener("click",repairLocalData); els.btnAdd.addEventListener("click",addTask); els.btnCreateList.addEventListener("click",createList); els.btnRenameList.addEventListener("click",renameCurrentList); els.btnDeleteList.addEventListener("click",deleteCurrentList); els.listCards.addEventListener("click",event=>{const btn=event.target.closest("button[data-list-action]"); if(!btn) return; const name=btn.dataset.listName; const action=btn.dataset.listAction; if(action==="open") setCurrentList(name); if(action==="team") changeTeamForList(name);}); els.taskList.addEventListener("click",event=>{const btn=event.target.closest("button[data-action]"); if(!btn) return; const id=Number(btn.dataset.id); const action=btn.dataset.action; if(action==="toggle") toggle(id); if(action==="edit") editTask(id); if(action==="delete") deleteTask(id);});}
+cacheElements(); els.shareUrl.value=lastShare; attachEvents(); render(); window.clearBrokenLocalData=repairLocalData;
+</script>
+</body>
+</html>
